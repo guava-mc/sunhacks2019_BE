@@ -18,13 +18,18 @@ def getUser(user_email):
     """
     result = db.getUserByEmail(user_email)
     del result["_id"] 
-    #print(result)
     pprint(result)
     return jsonify(result)
 
 @application.route('/addUser', methods = ['PUT'])
 @swag_from(const.user_put)
 def productsPost():
+    """
+    endpoint for PUTting new user information.
+    ---
+ 
+    """
+    print(request)
     json = request.json
     pprint(json)
     if len(json) > 0:
@@ -38,20 +43,18 @@ def productsPost():
 @application.route('/getSponsor/<sponsor_name>/')
 @swag_from(const.sponsor_get, methods=['GET'])
 def getSponsor(sponsor_name):
-    """endpoint returning user information
+    """endpoint returning sponsor information
     ---
  
     """
     print(sponsor_name)
     result = db.getCompanyByName(sponsor_name)
     del result["_id"] 
-    #print(result)
     pprint(result)
     return jsonify(result)
 
 def pprint(py_dict):
 	print(json.dumps(py_dict, sort_keys=True,indent=4, separators=(',', ': ')))
 
-#pprint(const.user_dict)
 if(__name__=="__main__"):
     application.run(debug=True)
