@@ -6,44 +6,16 @@ user_get = {
 "tags": [
     "users"
   ],
-  "parameters": [
+   "parameters": [
     {
       "name": "user_email",
       "in": "path",
       "type": "string",
+      "required": True,
+      "default": "mcole18@asu.edu",
+      "description": "Which user do you want?"
     }
   ],
-  "definitions": {
-    "User": {
-      "type": "object",
-      "properties": {
-        "user_email": {
-          "type": "object",
-          "items": {
-            "$ref": "#/definitions/User"
-          }
-        }
-      }
-    },
-    "Name": {
-      "type": "string"
-    },
-    "Email": {
-      "type": "string"
-    },
-    "Favorite_Color": {
-      "type": "string"
-    },
-    "Power": {
-      "type": "string"
-    },
-    "Field": {
-      "type": "string"
-    },
-    "Favorite_Hobby": {
-      "type": "string"
-    }
-  },
   "responses": {
     "200": {
       "description": "A user's public information",
@@ -70,6 +42,73 @@ user_put = {
   "tags": [
     "users"
   ],
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "Favorite_Color": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "Favorite_Hobby": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "Field": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "Name": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "Nametag": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        },
+        "Superpower": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      }
+    },
+    "Name": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "string"
+    },
+    "Favorite_Color": {
+      "type": "string"
+    },
+    "Power": {
+      "type": "string"
+    },
+    "Field": {
+      "type": "string"
+    },
+    "Favorite_Hobby": {
+      "type": "string"
+    }
+  },
   "parameters": [
     {
       "name": "body",
@@ -83,31 +122,38 @@ user_put = {
           "Favorite_Hobby",
           "Field",
           "Name",
-          "Nametag",
-          "Superpower",
+          "Superpower"
         ],
         "properties": {
-          "username": {
+          "Email": {
             "type": "string",
-            "description": "The user name.",
-            "default": "Sirius Black"
+            "description": "The user's email.",
+            "default": "mcole18@asu.edu"
           },
-          "age": {
-            "type": "integer",
-            "description": "The user age (should be integer)",
-            "default": "180"
+          "Favorite_Color": {
+            "type": "string",
+            "description": "The user's favorite color.",
+            "default": "Green."
           },
-          "tags": {
-            "type": "array",
-            "description": "optional list of tags",
-            "default": [
-              "wizard",
-              "hogwarts",
-              "dead"
-            ],
-            "items": {
-              "type": "string"
-            }
+          "Favorite_Hobby": {
+            "type": "string",
+            "description": "The user's favorite hobby.",
+            "default": "Dance battles."
+          },
+          "Field": {
+            "type": "string",
+            "description": "The user's occupational/study field.",
+            "default": "Software Engineering."
+          },
+          "Name": {
+            "type": "string",
+            "description": "The user's name.",
+            "default": "Mason Cole."
+          },
+          "Superpower": {
+            "type": "string",
+            "description": "The user's superpower (real or imaginary).",
+            "default": "Teleportation."
           }
         }
       }
@@ -123,6 +169,7 @@ user_put = {
   }
 }
 
+
 sponsor_get = {
 "tags": [
     "sponsors"
@@ -132,48 +179,17 @@ sponsor_get = {
       "name": "sponsor_name",
       "in": "path",
       "type": "string",
-      "schema": {
-        "id": "Sponsor",
-        "required": [
-          "Name",
-          "Recruiting",
-          "Rep",
-          "Rep_Field"
-          ]
-          }
+      "required": True,
+      "default": "GoDaddy",
+      "description": "Which Sponsor info do you want?"
     }
   ],
-  "definitions": {
-    "Sponsor": {
-      "type": "object",
-      "properties": {
-        "sponsor_name": {
-          "type": "object",
-          "items": {
-            "$ref": "#/definitions/Sponsor"
-          }
-        }
-      }
-    },
   "responses": {
     "200": {
       "description": "A sponsor's public information",
       "schema": {
         "$ref": "#/definitions/Sponsor"
       },
-    "Name": {
-      "type": "string"
-    },
-    "Recruiting": {
-      "type": "string"
-    },
-    "Rep": {
-      "type": "string"
-    },
-    "Rep_Field": {
-      "type": "string"
-    }
-  },
       "examples": {
         "Sponsor" : {
         'Mission': 'GoDaddys vision and mission is to radically shift the global '
