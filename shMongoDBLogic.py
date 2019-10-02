@@ -23,7 +23,7 @@ class ShMongoDBLogic:
     def getUserByEmail(self, email):
         userDoc = users.find_one({"Email":email})
         if(userDoc == None):
-            return False
+            return {"result" : "user does not exist"}
         else:
             return userDoc
  
@@ -46,26 +46,28 @@ class ShMongoDBLogic:
             newUser = collections.OrderedDict()
             ShMongoDBLogic.buildUser(newUser, name, email, color, power, field, hobby)
             users.insert_one(newUser)
-            return True
+            return "success"
         else:
             print("User already exists")
-            return email
+            return "User already exists"
     
     #Delete a user from the database - email is an index
     @classmethod
     def deleteUser(self, email):
         #TODO
+        print("TODO")
         
     #modifies an existing user
     @classmethod
     def editUser(self, name, email, color, power, field, hobby):
         if(ShMongoDBLogic.getUserByEmail(email) == False):
             print("No user with key " + email)
-            return False
+            return "No user with key " + email
         else:
             modUser = ShMongoDBLogic.getUserByEmail(email)
             ShMongoDBLogic.buildUser(modUser, name, email, color, power, field, hobby)
             users.replace_one({"Email":email},modUser)
+            return "success"
             
     #Company document methods
     #build company dict for add/edit methods effective refactoring
@@ -113,6 +115,7 @@ class ShMongoDBLogic:
     @classmethod
     def deleteCompany(self, name):
         #TODO
+        print("TODO")
 
     #adding team users for demo        
     def buildDB(self):

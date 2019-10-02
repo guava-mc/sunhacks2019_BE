@@ -9,23 +9,25 @@ application = Flask(__name__)
 application.config['SWAGGER'] = const.meta_swag
 swagger = Swagger(application)
 
-@application.route('/getUser/<user_email>/')
-@swag_from(const.user_get, methods=['GET'])
+@application.route('/user/<user_email>/')
+@swag_from(const.user_get, methods=['GET'], endpoint="get_user")
 def getUser(user_email):
     """endpoint returning user information
     ---
  
     """
     result = db.getUserByEmail(user_email)
-    del result["_id"] 
+    if "_id" in result:
+        del result["_id"] 
     pprint(result)
     return jsonify(result)
 
-@application.route('/addUser', methods = ['PUT'])
-@swag_from(const.user_put)
-def productsPost():
+## This is really a POST, but Unity is whack-a-do with POST json
+@application.route('/user', methods = ['POST'])
+@swag_from(const.user_post)
+def postUser():
     """
-    endpoint for PUTting new user information.
+    endpoint for POSTting new user information.
     ---
  
     """
@@ -37,8 +39,28 @@ def productsPost():
         #"Favorite_Color":"425caa","Superpower":"levitation",
         #"Field":"software engineering","Favorite_Hobby":"doodling"}
         result = db.addUser(json["Name"], json["Email"], json["Favorite_Color"], json["Superpower"], json["Field"], json["Favorite_Hobby"])
-        return jsonify({"PUT" : result})
-    return jsonify({"PUT" : "failed"})
+        return jsonify({request.method : result})
+    return jsonify({request.method : "failed"})
+
+
+@application.route('/user', methods = ['PUT'])
+@swag_from(const.user_post)
+def putUser():
+    """
+    endpoint for PUTting new user information. Matches by email.
+    ---
+ 
+    """
+    json = request.json
+    user = db.getUserByEmail(json["Email"])
+    result = "User does not exist"
+    if "_id" in user: 
+        for i in json:
+            #print(user[i], end=" - ")
+            user[i] = json[i]
+            #print(user[i])
+        result = db.editUser(user["Name"], user["Email"], user["Favorite_Color"], user["Superpower"], user["Field"], user["Favorite_Hobby"])
+    return jsonify({request.method : result})
 
 @application.route('/getSponsor/<sponsor_name>/')
 @swag_from(const.sponsor_get, methods=['GET'])

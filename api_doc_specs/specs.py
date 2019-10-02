@@ -38,7 +38,7 @@ user_get = {
 }
 
 
-user_put = {
+user_post = {
   "tags": [
     "users"
   ],
@@ -160,7 +160,7 @@ user_put = {
     }
   ],
   "responses": {
-    "200": {
+    "201": {
       "description": "A single user item",
       "schema": {
         "$ref": "#/definitions/User"
@@ -174,6 +174,43 @@ sponsor_get = {
 "tags": [
     "sponsors"
   ],
+  "definitions": {
+    "Sponsor": {
+      "type": "object",
+      "properties": {
+        "Mission": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/Sponsor"
+          }
+        },
+        "Name": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/Sponsor"
+          }
+        },
+        "Recruiting": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sponsor"
+          }
+        },
+        "Rep": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/Sponsor"
+          }
+        },
+        "Rep_Field": {
+          "type": "string",
+          "items": {
+            "$ref": "#/definitions/Sponsor"
+          }
+        }
+      }
+      }
+    },
   "parameters": [
     {
       "name": "sponsor_name",
@@ -197,12 +234,12 @@ sponsor_get = {
             'by helping our customers kick ass-giving them the tools, insights '
             'and the people to transform their ideas and personal initiative '
             'into success, however they measure it.',
-            'Name': 'GoDaddy',
-            'Recruiting': ['Software Engineering',
+        'Name': 'GoDaddy',
+        'Recruiting': ['Software Engineering',
                 'Engineering Management',
                 'Data Science'],
-            'Rep': 'Jane Smith',
-            'Rep Field': 'Software Engineer'}
+        'Rep': 'Jane Smith',
+        'Rep_Field': 'Software Engineer'}
     }
     }
   }
