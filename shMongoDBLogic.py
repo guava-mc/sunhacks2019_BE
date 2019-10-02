@@ -15,7 +15,8 @@ class ShMongoDBLogic:
     def get_connection(self):
         db = client["sunhacks"]
         return self
-
+        
+    #User document methods
     #return a user document from the users database document if the user exists
     @classmethod
     def getUserByEmail(self, email):
@@ -24,16 +25,7 @@ class ShMongoDBLogic:
             return False
         else:
             return userDoc
-
-    #return a company document from the company database document if the company exists
-    @classmethod
-    def getCompanyByName(self, name):
-        comDoc = company.find_one({"Name":name})
-        if(comDoc == None):
-            return False
-        else:
-            return comDoc
-            
+ 
     #build user dict for add/edit methods effective refactoring
     @classmethod        
     def buildUser(self, user, name, email, color, power, field, hobby):
@@ -45,15 +37,6 @@ class ShMongoDBLogic:
             user["Favorite_Hobby"] = hobby
             user["Nametag"] = email + ".nametag"
     
-    #build company dict for add/edit methods effective refactoring
-    @classmethod        
-    def buildCompany(self, comp, name, rep, repField, mission, recruit):
-            comp["Name"] = name
-            comp["Rep"] = rep
-            comp["Rep_Field"] = repField
-            comp["Mission"] = mission
-            comp["Recruiting"] = recruit
-            
     #If user does not exist, add user, else print to console and return email of user
     @classmethod
     def addUser(self, name, email, color, power, field, hobby):
@@ -67,6 +50,11 @@ class ShMongoDBLogic:
             print("User already exists")
             return email
     
+    #Delete a user from the database - email is an index
+    @classmethod
+    def deleteUser(self, email):
+        #TODO
+        
     #modifies an existing user
     @classmethod
     def editUser(self, name, email, color, power, field, hobby):
@@ -77,7 +65,26 @@ class ShMongoDBLogic:
             modUser = ShMongoDBLogic.getUserByEmail(email)
             ShMongoDBLogic.buildUser(modUser, name, email, color, power, field, hobby)
             users.replace_one({"Email":email},modUser)
-    
+            
+    #Company document methods
+    #build company dict for add/edit methods effective refactoring
+    @classmethod        
+    def buildCompany(self, comp, name, rep, repField, mission, recruit):
+            comp["Name"] = name
+            comp["Rep"] = rep
+            comp["Rep_Field"] = repField
+            comp["Mission"] = mission
+            comp["Recruiting"] = recruit
+            
+    #return a company document from the company database document if the company exists
+    @classmethod
+    def getCompanyByName(self, name):
+        comDoc = company.find_one({"Name":name})
+        if(comDoc == None):
+            return False
+        else:
+            return comDoc 
+            
     #modifies an existing company
     @classmethod
     def editCompany(self, name, rep, repField, mission, recruit):
@@ -99,8 +106,13 @@ class ShMongoDBLogic:
             return True
         else:
             print("Company already exists")
-            return name
-    
+            return name   
+            
+    #Delete a user from the database - name is an index
+    @classmethod
+    def deleteCompany(self, name):
+        #TODO
+
     #adding team users for demo        
     def buildDB(self):
         ShMongoDBLogic.addUser('Jacob Wallert', 'jawaller@asu.edu', 'FF821A', 'overthinking', 'software engineering', 'Pancakes')
